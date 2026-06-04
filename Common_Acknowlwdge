@@ -1,0 +1,15 @@
+
+=== APPLICATION LEVEL (BOD01 LEVEL)
+
+DM_CRM_REP.F_CRM_APPL a ---effective from 01-JAN-15
+AP_CRM.vw_tb_crm_appl ---- effective from 20-APR-09
+
+
+=== ACQUISITION 13 MONTHS (BOD0 LEVEL)
+AP_CRM.TB_REP_BOD0_2_APPLICATION --- effective 13 months
+
+=== BUNDLE INSURANCE TABLE 
+DM_CRM_REP.F_CRM_BUNDLE_INSURANCE_POLICY_AD --- effective 13 months
+
+
+====
