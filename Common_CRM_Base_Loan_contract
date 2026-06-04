@@ -1,0 +1,34 @@
+CREATE TABLE vw_tb_crm_appl_2 AS
+SELECT
+a.SKP_CREDIT_CASE,
+a.SKP_CLIENT,
+a.ID_CUID,
+trunc(a.apl_sign_dtm) AS date_sign,
+trunc(a.apl_sign_dtm,'MM') AS Month_sign,
+a.apl_prod_code,
+CASE
+                      WHEN a.apl_prod_code_gr = 'CD'
+                           OR a.apl_prod_code LIKE '%NS%' THEN
+                       'NS'
+
+                      ELSE
+                       a.apl_prod_code_gr
+                    END AS apl_prod_code_gr,
+a.apl_vol,
+,a.apl_vol_woi
+
+                   ,a.apl_tenor,
+     CASE
+                      WHEN sr.skp_business_model_type = 1 THEN
+                       'ALDI'
+                      WHEN sr.skp_business_model_type = 2 THEN
+                       'NON_ALDI'
+                      ELSE
+                       NULL
+                    END AS pos_business_model
+FROM   AP_CRM.vw_tb_crm_appl a
+
+
+    TRUNC(a.apl_sign_dtm) >= '01-JAN-23' AND TRUNC(a.apl_sign_dtm)  < TRUNC(SYSDATE)
+    AND    a.skp_credit_type IN (1, 2, 3) --POS/CASH/CARD
+    AND SKP_CREDIT_STATUS <> 3
