@@ -1,0 +1,43 @@
+CREATE TABLE LOAN_CONTRACT_ALL AS 
+
+SELECT 
+    t6.ID_CUID, 
+    t1.SKP_CREDIT_CASE,
+    t1.TEXT_CONTRACT_NUMBER,
+    t1.DTIME_SIGNATURE_CONTRACT,
+    t3.CODE_PRODUCT,
+
+    CASE 
+        WHEN (t3.CODE_PRODUCT LIKE '%CLX%' OR t3.NAME_PRODUCT LIKE '%ACLX%') THEN 'CLX' 
+        
+        WHEN (t3.CODE_PRODUCT LIKE 'CLW%' OR t3.CODE_PRODUCT LIKE 'ACL%') THEN 'ACL'
+        
+        WHEN (t3.CODE_PRODUCT LIKE '%CD%' 
+              OR t3.CODE_PRODUCT LIKE 'NS%' 
+              OR t3.CODE_PRODUCT LIKE '%cd%') THEN 'CD'
+        
+        WHEN t3.CODE_PRODUCT LIKE '%TW%' THEN 'TW'
+        
+        WHEN t3.CODE_PRODUCT IN (
+            'SCW_00_49','XSTU_49','XSTU_MC_49','TOP_U_INST','TOP_U_MC','VCT_INST','VCT_MC','VCC_INST',
+            'VCC_MC','VCX_INST','VCX_MC','CCX_U_MC','CCX_U_INST','CCW_U_INST','CCW_U_MC',
+            'MAX_XS_EE','VCE_MC','CCW_NS','CCXMC_01','CCW_VOC_PI_INST','ATM_XS_N4','CCX_01',
+            'MAX_XS_29','MAX_MC_29','MAX_XS_49','MAX_AC_NSA','TOP_VOC_PI_INST','SCW_00_45',
+            'MAX_XS_38','ATM_MC_45','EE_U_INST','ATM_U_INST','MAX_MC_EE','BEE_CCW_01',
+            'CCX_VOC_PI_INST','BHX_CCW_01','MAX_MC_49','EE_U_MC','MAX_XS_01','MAX_MC_38',
+            'REVMC0_49','SCW_N12_49','SCX_00_45','SCW_00_EE'
+        ) THEN 'CC'
+        
+        WHEN (t3.CODE_PRODUCT LIKE 'BNPL%' OR t3.CODE_PRODUCT LIKE 'HPL%') THEN 'BNPL'
+        
+        ELSE 'Others' 
+    END AS CODE_PRODUCT_GROUP
+
+FROM owner_dwh.f_contract_base_ad t1
+JOIN owner_dwh.dc_product t3 
+    ON t1.skp_product = t3.skp_product
+JOIN OWNER_DWH.DC_CLIENT t6 
+    ON t1.SKP_CLIENT = t6.SKP_CLIENT
+
+WHERE t1.SKP_CREDIT_STATUS NOT IN (3);
+
