@@ -1,0 +1,20 @@
+CREATE TABLE SAI_APL_ALL_FROM2023 AS
+
+    SELECT
+          m.key_id_cuid 
+        , m.key_policy_number
+        ,a.SKP_CREDIT_CASE
+        , m.apl_quotation_number
+        , TRUNC(m.date_inception)             AS DATE_INCEPTION
+        , TRUNC(m.date_created)               AS DATE_CREATED
+        , m.apl_product_gr
+        , m.APL_AMT_PREMIUM_GROSS
+        , m.cli_insured_gender
+        , m.cli_insured_age
+        , m.cli_insured_age_gr1
+        , m.cli_insured_age_gr
+        , m.apl_product_detail
+    FROM ap_crm.tb_crm_sai_appl m
+
+       WHERE  DATE_CREATED >= '01-NOV-23' AND 
+Upper(m.apl_status) IN ('EXPIRED', 'ISSUED')
